@@ -6,13 +6,7 @@
 
 
 
-
-
-
-
 ## ArrayList
-
-
 
 ### SortedList
 
