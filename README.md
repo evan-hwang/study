@@ -1,4 +1,4 @@
-Jun & Evan 깃 스터디 저장소
+# Jun & Evan 깃 스터디 저장소
 
 ### 공부 방법
 1. issue 생성
