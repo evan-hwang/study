@@ -9,5 +9,8 @@
 6. Master 브랜치로 Pull Request 요청
 7. @evanhwang이 검토 후 Merge
 
+### MD 사용툴
+Typora
+
 ### 참고
 [Pro Git](https://git-scm.com/book/ko/v2)
