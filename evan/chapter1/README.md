@@ -26,7 +26,7 @@ VCS(Version Control System)을 모르는 사람이라면 로컬 컴퓨터에 디
 
 이런 이유로 프로그래머들은 오래전에 로컬 VCS라는 걸 만들었다. 이 VCS는 아주 간단한 데이터베이스를 사용해서 파일의 변경 정보를 관리했다.
 
-![로컬 버전 관리](/Users/addpage/Dev/my-github/git-study/evan/chapter1/images/local.png)
+![로컬 버전 관리](./images/local.png)
 
 그림 1. 로컬 버전 관리.
 
@@ -36,7 +36,7 @@ VCS(Version Control System)을 모르는 사람이라면 로컬 컴퓨터에 디
 
 프로젝트를 진행하다 보면 다른 개발자와 함께 작업해야 하는 경우가 많다. 이럴 때 생기는 문제를 해결하기 위해 CVCS(중앙집중식 VCS)가 개발됐다. CVS, Subversion, Perforce 같은 시스템은 파일을 ==관리하는 서버가 별도==로 있고 클라이언트가 중앙 서버에서 파일을 받아서 ==사용(Checkout)==한다. 수년 동안 이러한 시스템들이 많은 사랑을 받았다.
 
-![중앙집중식 버전 관리(CVCS)](/Users/addpage/Dev/my-github/git-study/evan/chapter1/images/centralized.png)
+![중앙집중식 버전 관리(CVCS)](./images/centralized.png)
 
 그림 2. 중앙집중식 버전 관리(CVCS).
 
@@ -50,7 +50,7 @@ CVCS 환경은 로컬 VCS에 비해 장점이 많다. 모두 누가 무엇을 �
 
 DVCS(분산 버전 관리 시스템)을 설명할 차례다. Git, Mecurial, Bazaar, Darcs 같은 DVCS에서의 클라이언트는 단순히 파일의 ==마지막 스냅샷을 Checkout 하지 않는다. 그냥 저장소를 히스토리와 더불어 전부 복제==한다. 서버에 문제가 생기면 이 복제물로 다시 작업을 시작할 수 있다. 클라이언트 중에서 아무거나 골라도 서버를 복원할 수 있다. Clone은 모든 데이터를 가진 진정한 백업이다.
 
-![분산 버전 관리 시스템(DVCS)](/Users/addpage/Dev/my-github/git-study/evan/chapter1/images/distributed.png)
+![분산 버전 관리 시스템(DVCS)](./images/distributed.png)
 
 그림 3. 분산 버전 관리 시스템(DVCS).
 
@@ -86,13 +86,13 @@ Git의 핵심은 뭘까? 이 질문은 Git을 이해하는데 굉장히 중요�
 
 Subversion과 Subversion 비슷한 놈들과 Git의 가장 큰 차이점은 데이터를 다루는 방법에 있다. 큰 틀에서 봤을 때 VCS 시스템 대부분은 관리하는 정보가 파일들의 목록이다. CVS, Subversion, Perforce, Bazaar 등의 시스템은 각 파일의 변화를 시간순으로 관리하면서 파일들의 집합을 관리한다(보통 *델타 기반* 버전관리 시스템이라 함).
 
-![Storing data as changes to a base version of each file.](/Users/addpage/Dev/my-github/git-study/evan/chapter1/images/deltas.png)
+![Storing data as changes to a base version of each file.](./images/deltas.png)
 
 그림 4. 각 파일에 대한 변화를 저장하는 시스템들.
 
 Git은 이런 식으로 데이터를 저장하지도 취급하지도 않는다. 대신 Git은 데이터를 ==파일 시스템 스냅샷의 연속으로 취급하고 크기가 아주 작다.== Git은 커밋하거나 프로젝트의 상태를 저장할 때마다 파일이 존재하는 그 순간을 중요하게 여긴다. 파일이 달라지지 않았으면 Git은 성능을 위해서 파일을 새로 저장하지 않는다. 단지 이전 상태의 파일에 대한 링크만 저장한다. ==Git은 데이터를 **스냅샷의 스트림**처럼 취급==한다.
 
-![시간순으로 프로젝트의 스냅샷을 저장.](/Users/addpage/Dev/my-github/git-study/evan/chapter1/images/snapshots.png)
+![시간순으로 프로젝트의 스냅샷을 저장.](./images/snapshots.png)
 
 그림 5. 시간순으로 프로젝트의 스냅샷을 저장.
 
@@ -142,7 +142,7 @@ Git을 사용하면 프로젝트가 심각하게 망가질 걱정 없이 매우 
 
 이 세 가지 상태는 Git 프로젝트의 세 가지 단계와 연결돼 있다. Git 디렉토리, 워킹 트리, Staging Area 이렇게 세 가지 단계를 이해하고 넘어가자.
 
-![Working tree, staging area, and Git directory.](/Users/addpage/Dev/my-github/git-study/evan/chapter1/images/areas.png)
+![Working tree, staging area, and Git directory.](./images/areas.png)
 
 그림 6. 워킹 트리, Staging Area, Git 디렉토리.
 
@@ -157,7 +157,7 @@ Git을 사용하면 프로젝트가 심각하게 망가질 걱정 없이 매우 
 
 Git 디렉토리는 Git이 프로젝트의 메타데이터와 객체 데이터베이스를 저장하는 곳을 말한다. 이 Git 디렉토리가 Git의 핵심이다. 다른 컴퓨터에 있는 저장소를 *Clone* 할 때 Git 디렉토리가 만들어진다.
 
-![image-20210519153938744](/Users/addpage/Dev/my-github/git-study/evan/chapter1/images/image-20210519153938744.png)
+![image-20210519153938744](./images/image-20210519153938744.png)
 
 그림 6-1. Git 디렉토리 구조
 
@@ -201,11 +201,11 @@ Git을 설치하고 나면 Git의 사용 환경을 적절하게 설정해 주어
 
 2. `~/.gitconfig`, `~/.config/git/config` 파일: 특정 사용자(즉 현재 사용자)에게만 적용되는 설정이다. `git config --global` 옵션으로 이 파일을 읽고 쓸 수 있다. 특정 사용자의 *모든* 저장소 설정에 적용된다.
 
-   ![image-20210519113839170](/Users/addpage/Library/Application Support/typora-user-images/image-20210519113839170.png)
+   ![image-20210519113839170](./images/image-20210519113839170.png)
 
 3. `.git/config` : 이 파일은 Git 디렉토리에 있고 특정 저장소(혹은 현재 작업 중인 프로젝트)에만 적용된다. `--local` 옵션을 사용하면 이 파일을 사용하도록 지정할 수 있다. 하지만 기본적으로 이 옵션이 적용되어 있다. (당연히, 이 옵션을 적용하려면 Git 저장소인 디렉토리로 이동 한 후 적용할 수 있다.)
 
-   ![image-20210519113822390](/Users/addpage/Dev/my-github/git-study/evan/chapter1/images/image-20210519113822390.png)
+   ![image-20210519113822390](./images/image-20210519113822390.png)
 
 각 설정은 역순으로 우선시 된다. 그래서 ==`.git/config` 가 `/etc/gitconfig` 보다 우선==한다.
 
