@@ -842,6 +842,11 @@ b0ad11e - pull: allow "git pull origin $something:$current_branch" into an unbor
 
 일을 하다보면 모든 단계에서 어떤 것은 되돌리고(Undo) 싶을 때가 있다. 이번에는 우리가 한 일을 되돌리는 방법을 살펴본다. 한 번 되돌리면 복구할 수 없기에 주의해야 한다. **Git을 사용하면 우리가 저지른 실수는 대부분 복구할 수 있지만 되돌린 것은 복구할 수 없다.**
 
+
+### 이전 커밋 내용 수정
+
+*이전의 커밋을 완전히 새로 고쳐서 새 커밋으로 변경하는 것*
+
 종종 완료한 커밋을 수정해야 할 때가 있다. 너무 일찍 커밋했거나 어떤 파일을 빼먹었을 때 그리고 커밋 메시지를 잘못 적었을 때 한다. 다시 커밋하고 싶으면 파일 수정 작업을 하고 Staging Area에 추가한 다음 `--amend` 옵션을 사용하여 커밋을 재작성 할 수 있다.
 
 ```sh
@@ -854,7 +859,7 @@ $ git commit --amend
 
 커밋을 했는데 Stage 하는 것을 깜빡하고 빠트린 파일이 있으면 아래와 같이 고칠 수 있다.
 
-```console
+```sh
 $ git commit -m 'initial commit'
 $ git add forgotten_file
 $ git commit --amend
@@ -862,15 +867,17 @@ $ git commit --amend
 
 여기서 실행한 명령어 3개는 모두 커밋 한 개로 기록된다. 두 번째 커밋은 첫 번째 커밋을 덮어쓴다.
 
-| 노트 | 이렇게 `--amend` 옵션으로 커밋을 고치는 작업은, 추가로 작업한 일이 작다고 하더라도 이전의 커밋을 완전히 새로 고쳐서 새 커밋으로 변경하는 것을 의미한다. 이전의 커밋은 일어나지 않은 일이 되는 것이고 당연히 히스토리에도 남지 않는다.`--amend` 옵션으로 커밋을 고치는 작업이 주는 장점은 마지막 커밋 작업에서 아주 살짝 뭔가 빠뜨린 것을 넣거나 변경하는 것을 새 커밋으로 분리하지 않고 하나의 커밋에서 처리하는 것이다. “앗차, 빠진 파일 넣었음”, “이전 커밋에서 오타 살짝 고침” 등의 커밋을 만들지 않겠다는 말이다. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
+> ⚠️ 이렇게 `--amend` 옵션으로 커밋을 고치는 작업은, 추가로 작업한 일이 작다고 하더라도 **이전의 커밋을 완전히 새로 고쳐서 새 커밋으로 변경하는 것**을 의미한다. 이전의 커밋은 일어나지 않은 일이 되는 것이고 당연히 히스토리에도 남지 않는다.`--amend` 옵션으로 커밋을 고치는 작업이 주는 장점은 마지막 커밋 작업에서 아주 살짝 뭔가 빠뜨린 것을 넣거나 변경하는 것을 새 커밋으로 분리하지 않고 하나의 커밋에서 처리하는 것이다. **“앗차, 빠진 파일 넣었음”, “이전 커밋에서 오타 살짝 고침” 등의 커밋을 만들지 않겠다는 말**이다.
+
+
 
 ### 파일 상태를 Unstage로 변경하기
 
+*Staged Area에서 워킹 디렉토리로 변경*
+
 다음은 Staging Area와 워킹 디렉토리 사이를 넘나드는 방법을 설명한다. 두 영역의 상태를 확인할 때마다 변경된 상태를 되돌리는 방법을 알려주기 때문에 매우 편리하다. 예를 들어 파일을 두 개 수정하고서 따로따로 커밋하려고 했지만, 실수로 `git add *` 라고 실행해 버렸다. 두 파일 모두 Staging Area에 들어 있다. 이제 둘 중 하나를 어떻게 꺼낼까? 우선 `git status` 명령으로 확인해보자.
 
-```console
+```sh
 $ git add *
 $ git status
 On branch master
@@ -883,7 +890,7 @@ Changes to be committed:
 
 `Changes to be commited` 밑에 `git reset HEAD <file>...` 메시지가 보인다. 이 명령으로 Unstaged 상태로 변경할 수 있다. `CONTRIBUTING.md` 파일을 Unstaged 상태로 변경해보자.
 
-```console
+```sh
 $ git reset HEAD CONTRIBUTING.md
 Unstaged changes after reset:
 M	CONTRIBUTING.md
@@ -903,17 +910,18 @@ Changes not staged for commit:
 
 명령어가 낮설게 느껴질 수도 있지만 잘 동작한다. `CONTRIBUTING.md` 파일은 Unstaged 상태가 됐다.
 
-| 노트 | `git reset` 명령은 매우 위험하다. `--hard` 옵션과 함께 사용하면 더욱 위험하다. 하지만 위에서 처럼 옵션 없이 사용하면 워킹 디렉토리의 파일은 건드리지 않는다. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
+> ⚠️ 주의
+> `git reset` 명령은 매우 위험하다. **`--hard` 옵션과 함께 사용하면 더욱 위험**하다. 하지만 위에서 처럼 옵션 없이 사용하면 워킹 디렉토리의 파일은 건드리지 않는다.
 
 지금까지 살펴본 내용이 `git reset` 명령에 대해 알아야 할 대부분의 내용이다. `reset` 명령이 정확히는 어떻게 동작하는지, 어떻게 전문적으로 활용하는지는 [Reset 명확히 알고 가기](https://git-scm.com/book/ko/v2/ch00/_git_reset) 부분에서 자세히 살펴보기로 한다.
+
+
 
 ### Modified 파일 되돌리기
 
 어떻게 해야 CONTRIBUTING.md 파일을 수정하고 나서 다시 되돌릴 수 있을까? 그러니까 최근 커밋된 버전으로(아니면 처음 Clone 했을 때처럼 워킹 디렉토리에 처음 Checkout 한 그 내용으로) 되돌리는 방법이 무얼까? `git status` 명령이 친절하게 알려준다. 바로 위에 있는 예제에서 Unstaged 부분을 보자.
 
-```console
+```sh
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
   (use "git checkout -- <file>..." to discard changes in working directory)
@@ -923,7 +931,7 @@ Changes not staged for commit:
 
 위의 메시지는 수정한 파일을 되돌리는 방법을 꽤 정확하게 알려준다. 알려주는 대로 한 번 해보자.
 
-```console
+```sh
 $ git checkout -- CONTRIBUTING.md
 $ git status
 On branch master
@@ -935,29 +943,31 @@ Changes to be committed:
 
 정상적으로 복원된 것을 알 수 있다.
 
-| 중요 | `git checkout -- [file]` 명령은 꽤 위험한 명령이라는 것을 알아야 한다. 원래 파일로 덮어썼기 때문에 수정한 내용은 전부 사라진다. 수정한 내용이 진짜 마음에 들지 않을 때만 사용하자. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
+> ⭐️ 중요
+>
+> `git checkout -- [file]` 명령은 **꽤 위험한 명령**이라는 것을 알아야 한다. 원래 파일로 덮어썼기 때문에 수정한 내용은 전부 사라진다. 수정한 내용이 진짜 마음에 들지 않을 때만 사용하자.
 
-변경한 내용을 쉽게 버릴수는 없고 하지만 당장은 되돌려야만 하는 상황이라면 Stash와 Branch를 사용하자. [Git 브랜치](https://git-scm.com/book/ko/v2/ch00/ch03-git-branching) 에서 다루는 이 방법들이 훨씬 낫다.
+**변경한 내용을 쉽게 버릴수는 없고 하지만 당장은 되돌려야만 하는 상황이라면 Stash와 Branch를 사용하자.** [Git 브랜치](https://git-scm.com/book/ko/v2/ch00/ch03-git-branching) 에서 다루는 이 방법들이 훨씬 낫다.
 
-Git으로 *커밋* 한 모든 것은 언제나 복구할 수 있다. 삭제한 브랜치에 있었던 것도, `--amend` 옵션으로 다시 커밋한 것도 복구할 수 있다(자세한 것은 [데이터 복구](https://git-scm.com/book/ko/v2/ch00/_data_recovery) 에서 다룬다). 하지만 커밋하지 않고 잃어버린 것은 절대로 되돌릴 수 없다.
+**Git으로 *커밋* 한 모든 것은 언제나 복구할 수 있다.** 삭제한 브랜치에 있었던 것도, `--amend` 옵션으로 다시 커밋한 것도 복구할 수 있다(자세한 것은 [데이터 복구](https://git-scm.com/book/ko/v2/ch00/_data_recovery) 에서 다룬다). **하지만 커밋하지 않고 잃어버린 것은 절대로 되돌릴 수 없다.**
 
 
 
 ## 2.5 리모트 저장소
 
-리모트 저장소를 관리할 줄 알아야 다른 사람과 함께 일할 수 있다. 리모트 저장소는 인터넷이나 네트워크 어딘가에 있는 저장소를 말한다. 저장소는 여러 개가 있을 수 있는데 어떤 저장소는 읽고 쓰기 모두 할 수 있고 어떤 저장소는 읽기만 가능할 수 있다. 간단히 말해서 다른 사람들과 함께 일한다는 것은 리모트 저장소를 관리하면서 데이터를 거기에 Push 하고 Pull 하는 것이다. 리모트 저장소를 관리한다는 것은 저장소를 추가, 삭제하는 것뿐만 아니라 브랜치를 관리하고 추적할지 말지 등을 관리하는 것을 말한다. 이번에는 리모트 저장소를 관리하는 방법에 대해 설명한다.
+리모트 저장소를 관리할 줄 알아야 다른 사람과 함께 일할 수 있다. 리모트 저장소는 인터넷이나 네트워크 어딘가에 있는 저장소를 말한다. 저장소는 여러 개가 있을 수 있는데 어떤 저장소는 읽고 쓰기 모두 할 수 있고 어떤 저장소는 읽기만 가능할 수 있다. 간단히 말해서 다른 사람들과 함께 일한다는 것은 리모트 저장소를 관리하면서 데이터를 거기에 Push 하고 Pull 하는 것이다. **리모트 저장소를 관리한다는 것은 저장소를 추가, 삭제하는 것뿐만 아니라 브랜치를 관리하고 추적할지 말지 등을 관리**하는 것을 말한다. 이번에는 리모트 저장소를 관리하는 방법에 대해 설명한다.
 
-| 노트 | 원격 저장소라 하더라도 로컬 시스템에 위치할 수도 있다.“remote” 저장소라고 이름이 붙어있어도 이 원격 저장소가 사실 같은 로컬 시스템에 존재할 수도 있다. 여기서 “remote” 라는 이름은 반드시 저장소가 네트워크나 인터넷을 통해 어딘가 멀리 떨어져 있어야만 한다는 것을 의미하지 않는다. 물론 일반적인 원격 저장소와 마찬가지로 Push, Pull 등의 기능은 동일하게 사용한다. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
+> ⚠️ 주의
+>
+> 원격 저장소라 하더라도 로컬 시스템에 위치할 수도 있다.“remote” 저장소라고 이름이 붙어있어도 이 원격 저장소가 사실 같은 로컬 시스템에 존재할 수도 있다. 여기서 “remote” 라는 이름은 반드시 저장소가 네트워크나 인터넷을 통해 어딘가 멀리 떨어져 있어야만 한다는 것을 의미하지 않는다. 물론 일반적인 원격 저장소와 마찬가지로 Push, Pull 등의 기능은 동일하게 사용한다.
+
+
 
 ### 리모트 저장소 확인하기
 
-`git remote` 명령으로 현재 프로젝트에 등록된 리모트 저장소를 확인할 수 있다. 이 명령은 리모트 저장소의 단축 이름을 보여준다. 저장소를 Clone 하면 `origin`이라는 리모트 저장소가 자동으로 등록되기 때문에 `origin`이라는 이름을 볼 수 있다.
+`git remote` 명령으로 현재 프로젝트에 등록된 리모트 저장소를 확인할 수 있다. 이 명령은 리모트 저장소의 단축 이름을 보여준다. 저장소를 **Clone 하면 `origin`이라는 리모트 저장소가 자동으로 등록되기 때문에 `origin`이라는 이름을 볼 수 있다.**
 
-```console
+```sh
 $ git clone https://github.com/schacon/ticgit
 Cloning into 'ticgit'...
 remote: Reusing existing pack: 1857, done.
@@ -965,22 +975,26 @@ remote: Total 1857 (delta 0), reused 0 (delta 0)
 Receiving objects: 100% (1857/1857), 374.35 KiB | 268.00 KiB/s, done.
 Resolving deltas: 100% (772/772), done.
 Checking connectivity... done.
+
 $ cd ticgit
+
 $ git remote
 origin
 ```
 
+
 `-v` 옵션을 주어 단축이름과 URL을 함께 볼 수 있다.
 
-```console
+```sh
 $ git remote -v
 origin	https://github.com/schacon/ticgit (fetch)
 origin	https://github.com/schacon/ticgit (push)
 ```
 
+
 리모트 저장소가 여러 개 있다면 이 명령은 등록된 전부를 보여준다. 여러 사람과 함께 작업하는 리모트 저장소가 여러개라면 아래와 같은 결과를 얻을 수도 있다.
 
-```console
+```sh
 $ cd grit
 $ git remote -v
 bakkdoor  https://github.com/bakkdoor/grit (fetch)
@@ -995,15 +1009,16 @@ origin    git@github.com:mojombo/grit.git (fetch)
 origin    git@github.com:mojombo/grit.git (push)
 ```
 
-이렇게 리모트 저장소가 여러 개 등록되어 있으면 다른 사람이 기여한 내용(Contributions)을 쉽게 가져올 수 있다. 어떤 저장소에는 Push 권한까지 제공하기도 하지만 일단 이 화면에서 Push 가능 권한까지는 확인할 수 없다.
+**이렇게 리모트 저장소가 여러 개 등록되어 있으면 다른 사람이 기여한 내용(Contributions)을 쉽게 가져올 수 있다.** 어떤 저장소에는 Push 권한까지 제공하기도 하지만 일단 이 화면에서 Push 가능 권한까지는 확인할 수 없다.
 
 리모트 저장소와 데이터를 주고받는데 사용하는 다양한 프로토콜에 대해서는 [서버에 Git 설치하기](https://git-scm.com/book/ko/v2/ch00/_getting_git_on_a_server) 에서 자세히 살펴보기로 한다.
+
 
 ### 리모트 저장소 추가하기
 
 이전 절에서도 `git clone` 명령이 묵시적으로 `origin` 리모트 저장소를 어떻게 추가되는지 설명했었지만 수박 겉핥기식으로 살펴봤을 뿐이었다. 여기에서는 리모트 저장소를 추가하는 방법을 자세하게 설명한다. 기존 워킹 디렉토리에 새 리모트 저장소를 쉽게 추가할 수 있는데 `git remote add <단축이름> <url>` 명령을 사용한다.
 
-```console
+```sh
 $ git remote
 origin
 $ git remote add pb https://github.com/paulboone/ticgit
@@ -1014,9 +1029,10 @@ pb	https://github.com/paulboone/ticgit (fetch)
 pb	https://github.com/paulboone/ticgit (push)
 ```
 
+
 이제 URL 대신에 `pb` 라는 이름을 사용할 수 있다. 예를 들어 로컬 저장소에는 없지만 Paul의 저장소에 있는 것을 가져오려면 아래과 같이 실행한다.
 
-```console
+```sh
 $ git fetch pb
 remote: Counting objects: 43, done.
 remote: Compressing objects: 100% (36/36), done.
@@ -1029,35 +1045,43 @@ From https://github.com/paulboone/ticgit
 
 로컬에서 `pb/master` 가 Paul의 master 브랜치이다. 이 브랜치를 로컬 브랜치중 하나에 Merge 하거나 Checkout 해서 브랜치 내용을 자세히 확인할 수 있다. (브랜치를 어떻게 사용하는지는 [Git 브랜치](https://git-scm.com/book/ko/v2/ch00/ch03-git-branching) 에서 자세히 살펴본다)
 
+
 ### 리모트 저장소를 Pull 하거나 Fetch 하기
 
 앞서 설명했듯이 리모트 저장소에서 데이터를 가져오려면 간단히 아래와 같이 실행한다.
 
-```console
+```sh
 $ git fetch <remote>
 ```
 
-이 명령은 로컬에는 없지만, 리모트 저장소에는 있는 데이터를 모두 가져온다. 그러면 리모트 저장소의 모든 브랜치를 로컬에서 접근할 수 있어서 언제든지 Merge를 하거나 내용을 살펴볼 수 있다.
+이 명령은 로컬에는 없지만, **리모트 저장소에는 있는 데이터를 모두 가져온다.** 그러면 리모트 저장소의 모든 브랜치를 로컬에서 접근할 수 있어서 언제든지 Merge를 하거나 내용을 살펴볼 수 있다.
 
-저장소를 Clone 하면 명령은 자동으로 리모트 저장소를 “origin” 이라는 이름으로 추가한다. 그래서 나중에 `git fetch origin` 명령을 실행하면 Clone 한 이후에(혹은 마지막으로 가져온 이후에) 수정된 것을 모두 가져온다. `git fetch` 명령은 리모트 저장소의 데이터를 모두 로컬로 가져오지만, 자동으로 Merge 하지 않는다. 그래서 당신이 로컬에서 하던 작업을 정리하고 나서 수동으로 Merge 해야 한다.
+저장소를 Clone 하면 명령은 자동으로 리모트 저장소를 “origin” 이라는 이름으로 추가한다. 그래서 나중에 `git fetch origin` 명령을 실행하면 Clone 한 이후에(혹은 마지막으로 가져온 이후에) 수정된 것을 모두 가져온다. **`git fetch` 명령은 리모트 저장소의 데이터를 모두 로컬로 가져오지만, 자동으로 Merge** 하지 않는다. 그래서 당신이 로컬에서 하던 작업을 정리하고 나서 수동으로 Merge 해야 한다.
 
-그냥 쉽게 `git pull` 명령으로 리모트 저장소 브랜치에서 데이터를 가져올 뿐만 아니라 자동으로 로컬 브랜치와 Merge 시킬 수 있다(다음 섹션과 [Git 브랜치](https://git-scm.com/book/ko/v2/ch00/ch03-git-branching) 에서 좀더 자세히 살펴본다). 먼저 `git clone` 명령은 자동으로 로컬의 master 브랜치가 리모트 저장소의 master 브랜치를 추적하도록 한다(물론 리모트 저장소에 master 브랜치가 있다는 가정에서). 그리고 `git pull` 명령은 Clone 한 서버에서 데이터를 가져오고 그 데이터를 자동으로 현재 작업하는 코드와 Merge 시킨다.
+그냥 쉽게 **`git pull` 명령으로 리모트 저장소 브랜치에서 데이터를 가져올 뿐만 아니라 자동으로 로컬 브랜치와 Merge** 시킬 수 있다(다음 섹션과 [Git 브랜치](https://git-scm.com/book/ko/v2/ch00/ch03-git-branching) 에서 좀더 자세히 살펴본다). 먼저 `git clone` 명령은 자동으로 로컬의 master 브랜치가 리모트 저장소의 master 브랜치를 추적하도록 한다(물론 리모트 저장소에 master 브랜치가 있다는 가정에서). 그리고 `git pull` 명령은 Clone 한 서버에서 데이터를 가져오고 그 데이터를 자동으로 현재 작업하는 코드와 Merge 시킨다.
+
 
 ### 리모트 저장소에 Push 하기
 
-프로젝트를 공유하고 싶을 때 Upstream 저장소에 Push 할 수 있다. 이 명령은 `git push <리모트 저장소 이름> <브랜치 이름>`으로 단순하다.(((git commands, push))) master 브랜치를 `origin` 서버에 Push 하려면(다시 말하지만 Clone 하면 보통 자동으로 origin 이름이 생성된다) 아래와 같이 서버에 Push 한다.
+프로젝트를 공유하고 싶을 때 **Upstream 저장소에 Push 할 수 있다**. 이 명령은 `git push <리모트 저장소 이름> <브랜치 이름>`으로 단순하다. master 브랜치를 `origin` 서버에 Push 하려면(다시 말하지만 Clone 하면 보통 자동으로 origin 이름이 생성된다) 아래와 같이 서버에 Push 한다.
 
-```console
+```sh
 $ git push origin master
 ```
 
-이 명령은 Clone 한 리모트 저장소에 쓰기 권한이 있고, Clone 하고 난 이후 아무도 Upstream 저장소에 Push 하지 않았을 때만 사용할 수 있다. 다시 말해서 Clone 한 사람이 여러 명 있을 때, 다른 사람이 Push 한 후에 Push 하려고 하면 Push 할 수 없다. 먼저 다른 사람이 작업한 것을 가져와서 Merge 한 후에 Push 할 수 있다. [Git 브랜치](https://git-scm.com/book/ko/v2/ch00/ch03-git-branching) 에서 서버에 Push 하는 방법에 대해 자세히 설명할 것이다.
+이 명령은 **Clone 한 리모트 저장소에 쓰기 권한이 있고, Clone 하고 난 이후 아무도 Upstream 저장소에 Push 하지 않았을 때만 사용할 수 있다.** 다시 말해서 Clone 한 사람이 여러 명 있을 때, **다른 사람이 Push 한 후에 Push 하려고 하면 Push 할 수 없다.** **먼저 다른 사람이 작업한 것을 가져와서 Merge 한 후에 Push 할 수 있다.** [Git 브랜치](https://git-scm.com/book/ko/v2/ch00/ch03-git-branching) 에서 서버에 Push 하는 방법에 대해 자세히 설명할 것이다.
+
+> ✏️ Upstream 이란?
+>
+> 다른 사람의 GitHub의 저장소를 Fork한 경우 내 GitHub가 origin이 됩니다. 여러분이 처음 fork를 시도한 저장소를 upstream이라고 부릅니다. origin와 upstream 모두 remote 저장소입니다. 보통 origin과 구분하기 위해서 upstream 이라는 명칭을 주로 사용합니다.
+
+
 
 ### 리모트 저장소 살펴보기
 
 `git remote show <리모트 저장소 이름>` 명령으로 리모트 저장소의 구체적인 정보를 확인할 수 있다. `origin` 같은 단축이름으로 이 명령을 실행하면 아래와 같은 정보를 볼 수 있다.
 
-```console
+```sh
 $ git remote show origin
 * remote origin
   Fetch URL: https://github.com/schacon/ticgit
@@ -1076,7 +1100,7 @@ $ git remote show origin
 
 좀 더 Git을 열심히 사용하다 보면 `git remote show` 명령으로 더 많은 정보를 보는 날이 온다. 여러분도 언젠가는 아래와 같은 메시지(역주 - 다수의 브랜치를 사용하는 메시지)를 볼 날이 올 것이다.
 
-```console
+```sh
 $ git remote show origin
 * remote origin
   URL: https://github.com/my-org/complex-project
@@ -1101,11 +1125,13 @@ $ git remote show origin
 
 브랜치명을 생략하고 `git push` 명령을 실행할 때 어떤 브랜치가 어떤 브랜치로 Push 되는지 보여준다. 또 아직 로컬로 가져오지 않은 리모트 저장소의 브랜치는 어떤 것들이 있는지, 서버에서는 삭제됐지만 아직 가지고 있는 브랜치는 어떤 것인지, `git pull` 명령을 실행했을 때 자동으로 Merge 할 브랜치는 어떤 것이 있는지 보여준다.
 
+
+
 ### 리모트 저장소 이름을 바꾸거나 리모트 저장소를 삭제하기
 
 `git remote rename` 명령으로 리모트 저장소의 이름을 변경할 수 있다. 예를 들어 `pb` 를 `paul` 로 변경하려면 `git remote rename` 명령을 사용한다.
 
-```console
+```sh
 $ git remote rename pb paul
 $ git remote
 origin
@@ -1116,7 +1142,7 @@ paul
 
 리모트 저장소를 삭제해야 한다면 `git remote remove` 나 `git remote rm` 명령을 사용한다. 서버 정보가 바뀌었을 때, 더는 별도의 미러가 필요하지 않을 때, 더는 기여자가 활동하지 않을 때 필요하다.
 
-```console
+```sh
 $ git remote remove paul
 $ git remote
 origin
@@ -1128,13 +1154,17 @@ origin
 
 ## 2.6 태그
 
+*특정 release 버전에 대한 포인터를 제공하기 위함*
+
 다른 VCS처럼 Git도 태그를 지원한다. 사람들은 보통 릴리즈할 때 사용한다(v1.0, 등등). 이번에는 태그를 조회하고 생성하는 법과 태그의 종류를 설명한다.
+
+
 
 ### 태그 조회하기
 
 우선 `git tag` 명령으로 (`-l`, `--list`는 옵션) 이미 만들어진 태그가 있는지 확인할 수 있다.
 
-```console
+```sh
 $ git tag
 v0.1
 v1.3
@@ -1144,7 +1174,7 @@ v1.3
 
 검색 패턴을 사용하여 태그를 검색할 수 있다. Git 소스 저장소는 500여 개의 태그가 있다. 만약 1.8.5 버전의 태그들만 검색하고 싶으면 아래와 같이 실행한다.
 
-```console
+```sh
 $ git tag -l "v1.8.5*"
 v1.8.5
 v1.8.5-rc0
@@ -1158,13 +1188,15 @@ v1.8.5.4
 v1.8.5.5
 ```
 
-| 노트 | 와일드카드를 사용하여 Tag 리스트를 확인하려면 `-l`, `--list` 옵션을 지정단순히 모든 Tag 목록을 확인하기 위해 `git tag` 명령을 실행했을 때 `-l` 또는 `--list` 옵션이 적용된 것과 동일한 결과가 출력된다.하지만 와일드카드를 사용하여 태그 목록을 검색하는 경우에는 반드시 `-l` 또는 `--list` 옵션을 같이 써 줘야 원하는 결과를 얻을 수 있다. |
-| ---- | ------------------------------------------------------------ |
-|      |                                                              |
+> ⚠️ 주의
+>
+> 와일드카드를 사용하여 Tag 리스트를 확인하려면 `-l`, `--list` 옵션을 지정해야한다. 단순히 모든 Tag 목록을 확인하기 위해 `git tag` 명령을 실행했을 때 `-l` 또는 `--list` 옵션이 적용된 것과 동일한 결과가 출력된다. 하지만 와일드카드를 사용하여 태그 목록을 검색하는 경우에는 반드시 `-l` 또는 `--list` 옵션을 같이 써 줘야 원하는 결과를 얻을 수 있다.
+
+
 
 ### 태그 붙이기
 
-Git의 태그는 *Lightweight* 태그와 *Annotated* 태그로 두 종류가 있다.
+Git의 태그는 ***Lightweight*** 태그와 ***Annotated*** 태그로 두 종류가 있다.
 
 Lightweight 태그는 브랜치와 비슷한데 브랜치처럼 가리키는 지점을 최신 커밋으로 이동시키지 않는다. 단순히 특정 커밋에 대한 포인터일 뿐이다.
 
@@ -1174,7 +1206,7 @@ Lightweight 태그는 브랜치와 비슷한데 브랜치처럼 가리키는 지
 
 Annotated 태그를 만드는 방법은 간단하다. `tag` 명령을 실행할 때 `-a` 옵션을 추가한다.
 
-```console
+```sh
 $ git tag -a v1.4 -m "my version 1.4"
 $ git tag
 v0.1
@@ -1182,11 +1214,11 @@ v1.3
 v1.4
 ```
 
-`-m` 옵션으로 태그를 저장할 때 메시지를 함께 저장할 수 있다. 명령을 실행할 때 메시지를 입력하지 않으면 Git은 편집기를 실행시킨다.
+-m` 옵션으로 태그를 저장할 때 메시지를 함께 저장할 수 있다. 명령을 실행할 때 메시지를 입력하지 않으면 Git은 편집기를 실행시킨다.
 
 `git show` 명령으로 태그 정보와 커밋 정보를 모두 확인할 수 있다.
 
-```console
+```sh
 $ git show v1.4
 tag v1.4
 Tagger: Ben Straub <ben@straub.cc>
@@ -1203,11 +1235,13 @@ Date:   Mon Mar 17 21:52:11 2008 -0700
 
 커밋 정보를 보여주기 전에 먼저 태그를 만든 사람이 누구인지, 언제 태그를 만들었는지, 그리고 태그 메시지가 무엇인지 보여준다.
 
+
+
 ### Lightweight 태그
 
 Lightweight 태그는 기본적으로 파일에 커밋 체크섬을 저장하는 것뿐이다. 다른 정보는 저장하지 않는다. Lightweight 태그를 만들 때는 `-a`, `-s`, `-m` 옵션을 사용하지 않는다. 이름만 달아줄 뿐이다.
 
-```console
+```sh
 $ git tag v1.4-lw
 $ git tag
 v0.1
@@ -1219,7 +1253,7 @@ v1.5
 
 이 태그에 `git show` 를 실행하면 별도의 태그 정보를 확인할 수 없다. 이 명령은 단순히 커밋 정보만을 보여준다.
 
-```console
+```sh
 $ git show v1.4-lw
 commit ca82a6dff817ec66f44342007202690a93763949
 Author: Scott Chacon <schacon@gee-mail.com>
@@ -1228,11 +1262,13 @@ Date:   Mon Mar 17 21:52:11 2008 -0700
     changed the version number
 ```
 
+
+
 ### 나중에 태그하기
 
 예전 커밋에 대해서도 태그할 수 있다. 커밋 히스토리는 아래와 같다고 가정한다.
 
-```console
+```sh
 $ git log --pretty=oneline
 15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
 a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
@@ -1248,13 +1284,13 @@ a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
 
 “updated rakefile” 커밋을 v1.2로 태그하지 못했다고 해도 나중에 태그를 붙일 수 있다. 특정 커밋에 태그하기 위해서 명령의 끝에 커밋 체크섬을 명시한다(긴 체크섬을 전부 사용할 필요는 없다).
 
-```console
+```sh
 $ git tag -a v1.2 9fceb02
 ```
 
 이제 아래와 같이 만든 태그를 확인한다.
 
-```console
+```sh
 $ git tag
 v0.1
 v1.2
@@ -1277,11 +1313,13 @@ Date:   Sun Apr 27 20:43:35 2008 -0700
 ...
 ```
 
+
+
 ### 태그 공유하기
 
-`git push` 명령은 자동으로 리모트 서버에 태그를 전송하지 않는다. 태그를 만들었으면 서버에 별도로 Push 해야 한다. 브랜치를 공유하는 것과 같은 방법으로 할 수 있다. `git push origin <태그 이름>`을 실행한다.
+**`git push` 명령은 자동으로 리모트 서버에 태그를 전송하지 않는다.** 태그를 만들었으면 서버에 별도로 Push 해야 한다. 브랜치를 공유하는 것과 같은 방법으로 할 수 있다. `git push origin <태그 이름>`을 실행한다.
 
-```console
+```sh
 $ git push origin v1.5
 Counting objects: 14, done.
 Delta compression using up to 8 threads.
@@ -1294,7 +1332,7 @@ To git@github.com:schacon/simplegit.git
 
 만약 한 번에 태그를 여러 개 Push 하고 싶으면 `--tags` 옵션을 추가하여 `git push` 명령을 실행한다. 이 명령으로 리모트 서버에 없는 태그를 모두 전송할 수 있다.
 
-```console
+```sh
 $ git push origin --tags
 Counting objects: 1, done.
 Writing objects: 100% (1/1), 160 bytes | 0 bytes/s, done.
@@ -1306,11 +1344,13 @@ To git@github.com:schacon/simplegit.git
 
 이제 누군가 저장소에서 Clone 하거나 Pull을 하면 모든 태그 정보도 함께 전송된다.
 
+
+
 ### 태그를 Checkout 하기
 
 예를 들어 태그가 특정 버전을 가리키고 있고, 특정 버전의 파일을 체크아웃 해서 확인하고 싶다면 다음과 같이 실행한다. 단 태그를 체크아웃하면(브랜치를 체크아웃 하는 것이 아니라면) “detached HEAD”(떨어져나온 HEAD) 상태가 되며 일부 Git 관련 작업이 브랜치에서 작업하는 것과 다르게 동작할 수 있다.
 
-```console
+```sh
 $ git checkout 2.0.0
 Note: checking out '2.0.0'.
 
@@ -1332,7 +1372,7 @@ HEAD is now at df3f601... add atlas.json and cover image
 
 “detached HEAD”(떨어져나온 HEAD) 상태에서는 작업을 하고 커밋을 만들면, 태그는 그대로 있으나 새로운 커밋이 하나 쌓이 상태가 되고 새 커밋에 도달할 수 있는 방법이 따로 없게 된다. 물론 커밋의 해시 값을 정확히 기억하고 있으면 가능하긴 하다. 특정 태그의 상태에서 새로 작성한 커밋이 버그 픽스와 같이 의미있도록 하려면 반드시 브랜치를 만들어서 작업하는 것이 좋다.
 
-```console
+```sh
 $ git checkout -b version2 v2.0.0
 Switched to a new branch 'version2'
 ```
@@ -1407,3 +1447,6 @@ $ git config --global alias.visual '!gitk'
 ## 참고
 
 - [Pro Git](https://git-scm.com/book/ko/v2)
+
+- [Git Tag 꼭 써야할까?](https://programmingsummaries.tistory.com/395)
+
