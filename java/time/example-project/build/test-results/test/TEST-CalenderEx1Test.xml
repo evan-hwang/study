@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="CalenderEx1Test" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-06-23T06:42:54" hostname="addpageui-MacBookPro.local" time="0.018">
+  <properties/>
+  <testcase name="Calendar 를 활용한 시간 데이터 조회" classname="CalenderEx1Test" time="0.018"/>
+  <system-out><![CDATA[이 해의 년도 : 2021
+월 (0(1월)~11) : 5
+이 해의 몇 째 주 : 26
+이 달의 몇 째 주 : 4
+이 달의 몇 일 : 23
+이 달의 몇 일 : 23
+이 해의 몇 일 : 174
+요일 (1(일요일)~7) : 4
+이 달의 몇 째 요일 : 4
+오전_오후 (0: 오전, 1 오후) : 1
+시간 (0~11) : 3
+시간 (0~23) : 15
+분 (0~59) : 42
+초 (0~59) : 54
+1000분의 1초(millisecond) : 993
+TimeZone (-12 ~ +12) : 32400000
+이 달의 마지막 날 : : 30
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
