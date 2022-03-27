@@ -1,0 +1,1 @@
+- [신입사원을 위한 웹서비스 확장 전략](https://www.slideshare.net/charsyam2/webservice-scaling-for-newbie)
