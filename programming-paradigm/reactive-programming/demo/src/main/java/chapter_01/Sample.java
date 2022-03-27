@@ -1,4 +1,4 @@
-package sample_01;
+package chapter_01;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
