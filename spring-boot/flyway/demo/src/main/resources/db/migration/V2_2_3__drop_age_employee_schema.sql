@@ -1,2 +1,2 @@
 ALTER TABLE employee
-    DROP COLUMN `age`;
+    DROP COLUMN `email`;
