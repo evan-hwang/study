@@ -1,2 +1,6 @@
-package PACKAGE_NAME;public class Application {
+import java.util.TimeZone;
+
+public class Application {
+    public static void main(String[] args) {
+    }
 }

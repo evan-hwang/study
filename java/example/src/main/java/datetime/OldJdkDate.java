@@ -1,4 +1,4 @@
 package datetime;
 
-public class OldJdkDateTest {
+public class OldJdkDate {
 }

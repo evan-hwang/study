@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="datetime.LocalDateDemoTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-04-27T08:41:56" hostname="addpageui-MacBookPro.local" time="0.026">
+  <properties/>
+  <testcase name="createNow()" classname="datetime.LocalDateDemoTest" time="0.026"/>
+  <system-out><![CDATA[now = 2022-04-27
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
